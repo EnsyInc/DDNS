@@ -1,0 +1,11 @@
+services:
+  ddns-updater:
+    container_name: DDNS-Updater
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DOTNET_ENVIRONMENT: Production
+      DDNS__CloudFlare__ApiKey: ${DDNS__CloudFlare__ApiKey}
+      DDNS__CloudFlare__DnsRecordId: ${DDNS__CloudFlare__DnsRecordId}
+      DDNS__CloudFlare__ZoneId: ${DDNS__CloudFlare__ZoneId}

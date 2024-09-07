@@ -3,22 +3,22 @@ using DDNS.Services.Abstractions;
 
 using Microsoft.Extensions.Options;
 
-namespace DDNS.BgService;
+namespace DDNS;
 
-internal sealed class DDnsBackgroundHostedService : BackgroundService
+internal sealed class DDnsUpdaterBackgroundService : BackgroundService
 {
     private readonly IIpService _ipService;
     private readonly IDnsProviderService _dnsProviderService;
     private readonly MonitorConfig _config;
-    private readonly ILogger<DDnsBackgroundHostedService> _logger;
+    private readonly ILogger<DDnsUpdaterBackgroundService> _logger;
 
     private string? _lastIp;
 
-    public DDnsBackgroundHostedService(
+    public DDnsUpdaterBackgroundService(
         IIpService ipService,
         IDnsProviderService dnsProviderService,
         IOptions<MonitorConfig> config,
-        ILogger<DDnsBackgroundHostedService> logger)
+        ILogger<DDnsUpdaterBackgroundService> logger)
     {
         _ipService = ipService ?? throw new ArgumentNullException(nameof(ipService));
         _dnsProviderService = dnsProviderService ?? throw new ArgumentNullException(nameof(dnsProviderService));
@@ -36,6 +36,8 @@ internal sealed class DDnsBackgroundHostedService : BackgroundService
         while (!ct.IsCancellationRequested)
         {
             await UpdateDns(ct);
+
+            _logger.LogInformation("Waiting {timespan} until next attempt.", _config.PollingIntervalTime);
             await Task.Delay(_config.PollingIntervalTime, ct);
         }
 

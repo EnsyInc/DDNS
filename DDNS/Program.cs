@@ -1,4 +1,4 @@
-﻿using DDNS.BgService;
+﻿using DDNS;
 using DDNS.Core.Configurations;
 using DDNS.Services;
 
@@ -44,5 +44,5 @@ static void Configure(HostBuilderContext context, IServiceCollection services)
             .Bind(context.Configuration.GetSection(MonitorConfig.CONFIGURATION_NAME))
             .Validate(config => config.IsValid(), $"Invalid {MonitorConfig.CONFIGURATION_NAME} configuration.")
             .ValidateOnStart();
-    services.AddHostedService<DDnsBackgroundHostedService>();
+    services.AddHostedService<DDnsUpdaterBackgroundService>();
 }
