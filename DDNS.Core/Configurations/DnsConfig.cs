@@ -26,6 +26,7 @@ public sealed record CloudFlareConfig
     public string Endpoint { get; init; } = string.Empty;
     public string DnsRecordId { get; init; } = string.Empty;
     public string ZoneId { get; init; } = string.Empty;
+    public bool IsProxied { get; init; } = true;
 
     public bool IsValid()
         => !string.IsNullOrWhiteSpace(ApiKey)

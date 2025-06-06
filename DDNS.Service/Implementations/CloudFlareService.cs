@@ -40,7 +40,7 @@ internal sealed class CloudFlareService : IDnsProviderService
         {
             Content = ipAddress.ToString(),
             Name = _config.SubDomainName,
-            Proxied = true,
+            Proxied = _cloudFlareConfig.IsProxied,
             Type = "A",
             Id = _cloudFlareConfig.DnsRecordId,
         };
